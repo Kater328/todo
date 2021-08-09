@@ -15,7 +15,9 @@ class TodoItem extends React.Component {
                         checked={this.props.item.completed}
                         onChange={() => this.props.toggleTodo(this.props.item.id)} />
                     <label>{this.props.item.title}</label>
-                    <button className="destroy"></button>
+                    <button 
+                        className="destroy"
+                        onClick={() => this.props.destroyTodo(this.props.item.id)}/>
                 </div>
             </li>
         );

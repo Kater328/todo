@@ -11,7 +11,11 @@ class TodoList extends React.Component {
                     {
                         this.props.todos.map(
                             item =>
-                            <TodoItem key={item.id} item={item} toggleTodo={this.props.toggleTodo}/>
+                            <TodoItem 
+                                key={item.id} 
+                                item={item} 
+                                toggleTodo={this.props.toggleTodo}
+                                destroyTodo={this.props.destroyTodo}/>
                         )
                     }
                 </ul>

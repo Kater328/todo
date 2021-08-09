@@ -33,11 +33,19 @@ class App extends React.Component {
     );
   }
 
+  destroyTodo = (id) => {
+    this.setState({
+      todos: this.state.todos.filter(item => item.id !== id)
+      }
+    );
+    console.log(this.state.todos);
+  }
+
   render() {
     return (
       <section className="todoapp">
         <Header createTodo={this.createTodo} />
-        <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo}/>
+        <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} destroyTodo={this.destroyTodo}/>
       </section>
     );
   }
