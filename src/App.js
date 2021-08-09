@@ -2,6 +2,7 @@ import "./App.css";
 import React from "react";
 import Header from "./Components/Header";
 import TodoList from "./Components/TodoList";
+import Footer from "./Components/Footer";
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +39,28 @@ class App extends React.Component {
       todos: this.state.todos.filter(item => item.id !== id)
       }
     );
-    console.log(this.state.todos);
+  }
+
+  showAllElements = () => {
+    
+  }
+
+  showActiveElements = () => {
+
+  }
+
+  showCompletedElements = () => {
+
+  }
+
+  addFooter = () => {
+    if (this.state.todos.length > 0) return (
+      <Footer 
+        count={this.state.todos.length}
+        showAllElements={this.showAllElements}
+        showActiveElements={this.showActiveElements}
+        showCompletedElements={this.showCompletedElements}/>
+    );
   }
 
   render() {
@@ -46,6 +68,7 @@ class App extends React.Component {
       <section className="todoapp">
         <Header createTodo={this.createTodo} />
         <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} destroyTodo={this.destroyTodo}/>
+        {this.addFooter()}
       </section>
     );
   }
