@@ -5,7 +5,6 @@ class TodoItem extends React.Component {
     defineLiClasses = (item) => {
         let completed = item.completed ? "completed" : "";
         let editing = item.editing ? "editing" : "";
-        console.log(completed + " " + editing);
         return (completed + " " + editing);
     }
 

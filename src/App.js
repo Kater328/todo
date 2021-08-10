@@ -7,10 +7,12 @@ import Footer from "./Components/Footer";
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.buttons = ["All", "Active", "Completed"];
 
     this.state = {
       todos: [],
-      checkedAll: false
+      checkedAll: false,
+      selectedFilter: "All"
     };
   }
 
@@ -94,16 +96,8 @@ class App extends React.Component {
     }));
   }
 
-  showAllElements = () => {
-    
-  }
-
-  showActiveElements = () => {
-
-  }
-
-  showCompletedElements = () => {
-
+  changeSelectedFilter = (currentButton) => {
+    this.setState({selectedFilter: currentButton});
   }
 
   addFooter = () => {
@@ -112,6 +106,9 @@ class App extends React.Component {
         count={this.state.todos.filter(
           item => item.completed === false
         ).length}
+        filters={this.buttons}
+        selected={this.state.selectedFilter}
+        changeSelected={this.changeSelectedFilter}
         showAllElements={this.showAllElements}
         showActiveElements={this.showActiveElements}
         showCompletedElements={this.showCompletedElements}/>
@@ -123,6 +120,8 @@ class App extends React.Component {
       <section className="todoapp">
         <Header createTodo={this.createTodo} />
         <TodoList 
+          selectedFilter={this.state.selectedFilter}
+          filters={this.buttons}
           todos={this.state.todos}
           checkedAll={this.state.checkedAll}
           toggleTodo={this.toggleTodo} 
