@@ -30,7 +30,8 @@ class TodoItem extends React.Component {
                         autoFocus
                         value={this.props.item.title}
                         onChange={this.props.onChangeInput(this.props.item.id, (Event))}
-                        onKeyPress={this.props.onKeyPress(this.props.item.id, (Event))}/>
+                        onKeyPress={this.props.onKeyPress(this.props.item.id, (Event))}
+                        onBlur={this.props.onKeyPress(this.props.item.id, (Event))}/>
                      : ""}
             </li>
         );

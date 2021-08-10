@@ -63,7 +63,7 @@ class App extends React.Component {
   }
 
   onKeyPress = (id) => (e) => {
-    if(e.key === "Enter") {
+    if(e.key === "Enter" || e.type === 'blur') {
       if(this.state.todos.filter(item => item.id === id)[0].title.trim() === "") {
         this.destroyTodo(id);
       } else {
