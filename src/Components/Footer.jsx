@@ -1,5 +1,6 @@
 import React from "react";
 import FooterButton from "./FooterButton";
+import DestroyAllButton from "./DestroyAllButton";
 
 class Footer extends React.Component {
     render() {
@@ -19,7 +20,11 @@ class Footer extends React.Component {
                     )
                 }
             </ul>
-            <button className="clear-completed" display="none;"></button>
+            <DestroyAllButton 
+                destroyCompleted={this.props.destroyCompleted} 
+                display={this.props.isDestroyAll ? "none" : "block"}>
+                    {this.props.isDestroyAll ? "Clear completed" : ""}
+            </DestroyAllButton>
           </footer>
         );
     }

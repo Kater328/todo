@@ -79,6 +79,13 @@ class App extends React.Component {
     );
   }
 
+  destroyCompleted = () => {
+    this.setState({
+      todos: this.state.todos.filter(item => item.completed === false)
+      }
+    );
+  }
+
   updateCheckedAll = (status) => {
     this.setState((state) => ({
       checkedAll: state.todos.some( function(item) {
@@ -106,12 +113,14 @@ class App extends React.Component {
         count={this.state.todos.filter(
           item => item.completed === false
         ).length}
+        isDestroyAll={this.state.todos.some(item => item.completed === true)}
         filters={this.buttons}
         selected={this.state.selectedFilter}
         changeSelected={this.changeSelectedFilter}
         showAllElements={this.showAllElements}
         showActiveElements={this.showActiveElements}
-        showCompletedElements={this.showCompletedElements}/>
+        showCompletedElements={this.showCompletedElements}
+        destroyCompleted={this.destroyCompleted}/>
     );
   }
 
