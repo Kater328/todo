@@ -20,7 +20,7 @@ class App extends React.Component {
     this.setState({
       todos: [
         ...this.state.todos,
-        {id: Date.now(), title, completed: false, editing: false}
+        {id: Date.now(), title, completed: false}
       ]
     });
   }
@@ -38,38 +38,16 @@ class App extends React.Component {
     this.updateCheckedAll(false);
   }
 
-  changeTodoLabel = (id, status) => {
+  changeTodoTitle = (id, newTitle) => {
     this.setState({
       todos: this.state.todos.map(
         item =>
           item.id === id ?
-          {...item, editing: status} :
+          {...item, title: newTitle} :
           item
           )
       }
     );
-  }
-
-  onChangeInput  = (id) => (e) => {
-    this.setState({
-      todos: this.state.todos.map(
-        item =>
-          item.id === id ?
-          {...item, title: e.target.value} :
-          item
-          )
-      }
-    );
-  }
-
-  onKeyPress = (id) => (e) => {
-    if(e.key === "Enter" || e.type === 'blur') {
-      if(this.state.todos.filter(item => item.id === id)[0].title.trim() === "") {
-        this.destroyTodo(id);
-      } else {
-        this.changeTodoLabel(id, false);
-      }
-    }
   }
 
   destroyTodo = (id) => {
@@ -77,19 +55,21 @@ class App extends React.Component {
       todos: this.state.todos.filter(item => item.id !== id)
       }
     );
+    if(this.state.todos.length < 2) this.setState({checkedAll: false});
   }
 
   destroyCompleted = () => {
     this.setState({
-      todos: this.state.todos.filter(item => item.completed === false)
+      todos: this.state.todos.filter(item => !item.completed)
       }
     );
+    this.setState({checkedAll: false});
   }
 
   updateCheckedAll = (status) => {
     this.setState((state) => ({
       checkedAll: state.todos.some( function(item) {
-          return item.completed === false;
+          return !item.completed;
       }) ? status : !status
     }));
   }
@@ -107,23 +87,6 @@ class App extends React.Component {
     this.setState({selectedFilter: currentButton});
   }
 
-  addFooter = () => {
-    if (this.state.todos.length > 0) return (
-      <Footer 
-        count={this.state.todos.filter(
-          item => item.completed === false
-        ).length}
-        isDestroyAll={this.state.todos.some(item => item.completed === true)}
-        filters={this.buttons}
-        selected={this.state.selectedFilter}
-        changeSelected={this.changeSelectedFilter}
-        showAllElements={this.showAllElements}
-        showActiveElements={this.showActiveElements}
-        showCompletedElements={this.showCompletedElements}
-        destroyCompleted={this.destroyCompleted}/>
-    );
-  }
-
   render() {
     return (
       <section className="todoapp">
@@ -136,10 +99,20 @@ class App extends React.Component {
           toggleTodo={this.toggleTodo} 
           destroyTodo={this.destroyTodo}
           toggleAll={this.toggleAll}
-          changeTodoLabel={this.changeTodoLabel}
-          onChangeInput={this.onChangeInput}
-          onKeyPress={this.onKeyPress}/>
-        {this.addFooter()}
+          changeTodoTitle={this.changeTodoTitle}/>
+        {
+          this.state.todos.length > 0 && 
+          <Footer 
+            count={this.state.todos.filter(item => !item.completed).length}
+            isDestroyAll={this.state.todos.some(item => item.completed)}
+            filters={this.buttons}
+            selected={this.state.selectedFilter}
+            changeSelected={this.changeSelectedFilter}
+            showAllElements={this.showAllElements}
+            showActiveElements={this.showActiveElements}
+            showCompletedElements={this.showCompletedElements}
+            destroyCompleted={this.destroyCompleted}/>
+        }
       </section>
     );
   }

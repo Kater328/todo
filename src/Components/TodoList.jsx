@@ -12,9 +12,7 @@ class TodoList extends React.Component {
                 toggleTodo={this.props.toggleTodo}
                 destroyTodo={this.props.destroyTodo}
                 toggleAll={this.props.toggleAll}
-                changeTodoLabel={this.props.changeTodoLabel}
-                onChangeInput={this.props.onChangeInput}
-                onKeyPress={this.props.onKeyPress}/>
+                changeTodoTitle={this.props.changeTodoTitle}/>
         );
     }
 
@@ -22,10 +20,10 @@ class TodoList extends React.Component {
         if (this.props.selectedFilter === this.props.filters[0]) {
             return (todos.map(item => this.createTodoItem(item)))
         } else if (this.props.selectedFilter === this.props.filters[1]) {
-            return (todos.map( item => item.completed === false ?
+            return (todos.map( item => !item.completed ?
                 this.createTodoItem(item) :'' ))          
         }else {
-            return (todos.map( item => item.completed === true ?
+            return (todos.map( item => item.completed ?
                 this.createTodoItem(item) :'' )) 
         }
     }

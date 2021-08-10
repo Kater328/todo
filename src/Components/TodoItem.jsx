@@ -2,10 +2,34 @@ import React from "react";
 
 class TodoItem extends React.Component {
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            editing: false,
+            value: this.props.item.title,
+        };
+    }
+
     defineLiClasses = (item) => {
         let completed = item.completed ? "completed" : "";
-        let editing = item.editing ? "editing" : "";
+        let editing = this.state.editing ? "editing" : "";
         return (completed + " " + editing);
+    }
+
+    changeTodoLabel = () =>{
+        this.setState({editing: true});
+    }
+
+    onKeyPress = (id) => (e) => {
+        if(e.key === "Enter" || e.type === 'blur') {
+            if(this.state.value.trim() === "") {
+                this.props.destroyTodo(id);
+            } else {
+                this.setState({editing: false});
+                this.props.changeTodoTitle(id, this.state.value);
+            }
+        }
     }
 
     render() {
@@ -17,21 +41,21 @@ class TodoItem extends React.Component {
                         type="checkbox"
                         checked={this.props.item.completed}
                         onChange={() => this.props.toggleTodo(this.props.item.id)} />
-                    <label onDoubleClick={() => this.props.changeTodoLabel(this.props.item.id, true)}>
+                    <label onDoubleClick={this.changeTodoLabel}>
                         {this.props.item.title}
                     </label>
                     <button 
                         className="destroy"
                         onClick={() => this.props.destroyTodo(this.props.item.id)}/>
                 </div>
-                {this.props.item.editing ? 
+                {this.state.editing ? 
                     <input
                         className="edit"
                         autoFocus
-                        value={this.props.item.title}
-                        onChange={this.props.onChangeInput(this.props.item.id, (Event))}
-                        onKeyPress={this.props.onKeyPress(this.props.item.id, (Event))}
-                        onBlur={this.props.onKeyPress(this.props.item.id, (Event))}/>
+                        value={this.state.value}
+                        onChange={(e) => this.setState({value: e.target.value})}
+                        onKeyPress={this.onKeyPress(this.props.item.id, (Event))}
+                        onBlur={this.onKeyPress(this.props.item.id, (Event))}/>
                      : ""}
             </li>
         );
