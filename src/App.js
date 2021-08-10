@@ -10,6 +10,7 @@ class App extends React.Component {
 
     this.state = {
       todos: [],
+      checkedAll: false
     };
   }
 
@@ -32,6 +33,7 @@ class App extends React.Component {
           )
       }
     );
+    this.updateCheckedAll(false);
   }
 
   destroyTodo = (id) => {
@@ -39,6 +41,23 @@ class App extends React.Component {
       todos: this.state.todos.filter(item => item.id !== id)
       }
     );
+  }
+
+  updateCheckedAll = (condition) => {
+    this.setState((state) => ({
+      checkedAll: state.todos.some( function(item) {
+          return item.completed === false;
+      }) ? condition : !condition
+    }));
+  }
+
+  toggleAll = () => {
+    this.updateCheckedAll(true);
+    this.setState((state) => ({
+      todos: state.todos.map(
+        item => ({...item, completed: state.checkedAll})
+      )
+    }));
   }
 
   showAllElements = () => {
@@ -67,7 +86,12 @@ class App extends React.Component {
     return (
       <section className="todoapp">
         <Header createTodo={this.createTodo} />
-        <TodoList todos={this.state.todos} toggleTodo={this.toggleTodo} destroyTodo={this.destroyTodo}/>
+        <TodoList 
+          todos={this.state.todos}
+          checkedAll={this.state.checkedAll}
+          toggleTodo={this.toggleTodo} 
+          destroyTodo={this.destroyTodo}
+          toggleAll={this.toggleAll}/>
         {this.addFooter()}
       </section>
     );

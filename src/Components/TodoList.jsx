@@ -1,12 +1,15 @@
 import React from "react";
+import ToggleCheckbox from "./ToggleCheckbox";
 import TodoItem from "./TodoItem";
 
 class TodoList extends React.Component {
     render() {
         return(
             <section className="main" style={{display: "block"}}>
-				<input id="toggle-all" className="toggle-all" type="checkbox"/>
-				<label htmlFor="toggle-all">Mark all as complete</label>
+                <ToggleCheckbox 
+                    toggleAll={this.props.toggleAll} 
+                    checked={this.props.checkedAll}/>
+                <label htmlFor="toggle-all">Mark all as complete</label>
 				<ul className="todo-list">
                     {
                         this.props.todos.map(
@@ -15,7 +18,8 @@ class TodoList extends React.Component {
                                 key={item.id} 
                                 item={item} 
                                 toggleTodo={this.props.toggleTodo}
-                                destroyTodo={this.props.destroyTodo}/>
+                                destroyTodo={this.props.destroyTodo}
+                                toggleAll={this.props.toggleAll}/>
                         )
                     }
                 </ul>
