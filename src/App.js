@@ -75,7 +75,9 @@ class App extends React.Component {
   addFooter = () => {
     if (this.state.todos.length > 0) return (
       <Footer 
-        count={this.state.todos.length}
+        count={this.state.todos.filter(
+          item => item.completed === false
+        ).length}
         showAllElements={this.showAllElements}
         showActiveElements={this.showActiveElements}
         showCompletedElements={this.showCompletedElements}/>
