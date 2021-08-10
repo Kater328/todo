@@ -19,7 +19,10 @@ class TodoList extends React.Component {
                                 item={item} 
                                 toggleTodo={this.props.toggleTodo}
                                 destroyTodo={this.props.destroyTodo}
-                                toggleAll={this.props.toggleAll}/>
+                                toggleAll={this.props.toggleAll}
+                                changeTodoLabel={this.props.changeTodoLabel}
+                                onChangeInput={this.props.onChangeInput}
+                                onKeyPress={this.props.onKeyPress}/>
                         )
                     }
                 </ul>

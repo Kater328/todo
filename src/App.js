@@ -18,7 +18,7 @@ class App extends React.Component {
     this.setState({
       todos: [
         ...this.state.todos,
-        {id: Date.now(), title, completed: false}
+        {id: Date.now(), title, completed: false, editing: false}
       ]
     });
   }
@@ -36,6 +36,40 @@ class App extends React.Component {
     this.updateCheckedAll(false);
   }
 
+  changeTodoLabel = (id, status) => {
+    this.setState({
+      todos: this.state.todos.map(
+        item =>
+          item.id === id ?
+          {...item, editing: status} :
+          item
+          )
+      }
+    );
+  }
+
+  onChangeInput  = (id) => (e) => {
+    this.setState({
+      todos: this.state.todos.map(
+        item =>
+          item.id === id ?
+          {...item, title: e.target.value} :
+          item
+          )
+      }
+    );
+  }
+
+  onKeyPress = (id) => (e) => {
+    if(e.key === "Enter") {
+      if(this.state.todos.filter(item => item.id === id)[0].title.trim() === "") {
+        this.destroyTodo(id);
+      } else {
+        this.changeTodoLabel(id, false);
+      }
+    }
+  }
+
   destroyTodo = (id) => {
     this.setState({
       todos: this.state.todos.filter(item => item.id !== id)
@@ -43,11 +77,11 @@ class App extends React.Component {
     );
   }
 
-  updateCheckedAll = (condition) => {
+  updateCheckedAll = (status) => {
     this.setState((state) => ({
       checkedAll: state.todos.some( function(item) {
           return item.completed === false;
-      }) ? condition : !condition
+      }) ? status : !status
     }));
   }
 
@@ -93,7 +127,10 @@ class App extends React.Component {
           checkedAll={this.state.checkedAll}
           toggleTodo={this.toggleTodo} 
           destroyTodo={this.destroyTodo}
-          toggleAll={this.toggleAll}/>
+          toggleAll={this.toggleAll}
+          changeTodoLabel={this.changeTodoLabel}
+          onChangeInput={this.onChangeInput}
+          onKeyPress={this.onKeyPress}/>
         {this.addFooter()}
       </section>
     );
